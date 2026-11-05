@@ -3,499 +3,357 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<title>نظام إدارة الصيدلية | Pharmacy Management System</title>
+<title>نظام إدارة الصيدلية</title>
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <style>
-:root{
-  --navy:#0f2942;--navy-dark:#081c30;--primary:#1e5b9c;--primary-dark:#154a80;--primary-light:#e8f0fa;
-  --accent:#0d7a5f;--accent-dark:#0a4f4a;--danger:#b66c1c;--danger-dark:#771b1b;--purple:#5b3a99;
-  --warning:#b45309;--bg:#eef2f6;--surface:#ffffff;--surface-alt:#f8fafc;--text:#0f172a;
-  --text-muted:#64748b;--border:#cbd5e1;--border-dark:#40a3b8;
-  --shadow-sm:0 1px 3px rgba(15,41,66,.08);--shadow-md:0 2px 8px rgba(15,41,66,.10);
-  --shadow-lg:0 4px 16px rgba(15,41,66,.14);--radius:8px;--radius-sm:6px;
-}
+:root{--primary:#000;--surface:#d4d0c8;--text:#000;--muted:#333;--border:#808080;--green:#168000;--red:#b00000;--orange:#a85f00}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;padding:0;width:100%;min-height:100%;font-family:'Segoe UI','SF Pro Text',-apple-system,BlinkMacSystemFont,Roboto,'Helvetica Neue',Tahoma,sans-serif;color:var(--text);font-size:14px}
-body{background:var(--bg);padding:0;line-height:1.55}
-.app-header{background:linear-gradient(180deg,var(--navy) 0%,var(--navy-dark) 100%);color:#fff;padding:16px 20px;border-bottom:3px solid var(--primary);box-shadow:var(--shadow-lg)}
-.app-header-inner{max-width:720px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.app-header h1{margin:0;font-size:18px;font-weight:700;letter-spacing:.2px;display:flex;align-items:center;gap:10px}
-.app-header .logo{width:36px;height:36px;border-radius:6px;background:linear-gradient(135deg,var(--primary),#2e7bc4);display:inline-flex;align-items:center;justify-content:center;font-size:20px;box-shadow:inset 0 1px 0 rgba(255,255,255,.15)}
-.app-header .subtitle{font-size:11px;color:#94a3b8;font-weight:500;margin-top:2px;letter-spacing:.4px}
-.app-header .badge{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:6px 12px;border-radius:4px;font-size:11px;font-weight:600}
-.container{width:100%;max-width:720px;margin:0 auto;padding:16px 14px 30px}
-.tabs{display:flex;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:4px;margin-bottom:16px;box-shadow:var(--shadow-sm);gap:4px}
-.tab-btn{flex:1;padding:12px 6px;font-size:12px;font-weight:600;background:transparent;border:none;border-radius:var(--radius-sm);cursor:pointer;color:var(--text-muted);font-family:inherit;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px}
-.tab-btn.active{background:var(--primary);color:#fff;box-shadow:0 2px 6px rgba(30,91,156,.3)}
+html,body{margin:0;padding:0;width:100%;min-height:100%;font-family:Tahoma,Arial,sans-serif;color:#000}
+body{background:linear-gradient(#3a6ea5 0,#d4d0c8 42px,#d4d0c8 100%);padding:10px;font-size:13px}
+.container{width:100%;max-width:850px;margin:auto;background:#d4d0c8;border:2px solid #fff;border-right-color:#404040;border-bottom-color:#404040;border-radius:0;padding:4px;box-shadow:2px 2px #000}
+h1{color:#fff;font-size:16px;text-align:right;margin:0 0 6px;padding:6px 9px;background:linear-gradient(#333,#000);border:1px solid #000;border-radius:2px;font-weight:bold}
+h2{font-size:13px;margin:0;color:#000;font-weight:bold}
+.card{background:#d4d0c8;border:2px solid #fff;border-right-color:#808080;border-bottom-color:#808080;border-radius:0;padding:8px;margin-bottom:7px;box-shadow:1px 1px #000}
+.card h2{background:linear-gradient(#f7f7f7,#dcdcdc);border:1px solid #808080;padding:5px 7px;margin:-1px -1px 8px;font-size:13px}
+.input-group{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:7px}
+label{display:block;font-size:11px;font-weight:bold;color:#000;margin-bottom:3px}
+input,select{width:100%;padding:7px 8px;border-radius:0;background:#fff;color:#000;border-top:2px solid #808080;border-left:2px solid #808080;border-right:2px solid #fff;border-bottom:2px solid #fff;outline:none;font-size:13px;font-family:Tahoma,Arial}
+button{padding:7px 10px;border-radius:2px;color:#fff;background:linear-gradient(#555,#111);border:1px solid #000;box-shadow:1px 1px #fff;font-weight:bold;font-size:12px;font-family:Tahoma,Arial;cursor:pointer}
+button:active{box-shadow:inset 1px 1px 2px #000}
+button:disabled{opacity:0.6;cursor:not-allowed}
+
+.btn-primary{background:linear-gradient(#3b82f6,#1d4ed8);width:100%;margin-bottom:5px}
+.btn-success{background:linear-gradient(#48a948,#116b11);width:100%;margin-bottom:5px}
+.btn-danger{background:linear-gradient(#ef4444,#991b1b);width:100%;margin-bottom:5px}
+.btn-purple{background:linear-gradient(#9b72c7,#54277e);width:100%;margin-bottom:5px}
+.btn-warning{background:linear-gradient(#e9b449,#9b5a00);width:100%;margin-bottom:5px}
+.btn-sm{padding:4px 6px;font-size:11px}
+
+/* التبويبات بنمط إكس بي */
+.tabs{display:flex;gap:4px;margin-bottom:8px;background:#d4d0c8;padding:3px;border-bottom:2px solid #fff}
+.tab-btn{flex:1;padding:8px 5px;background:linear-gradient(#e8e8e8,#b0b0b0);border:2px solid #fff;border-right-color:#808080;border-bottom-color:#808080;cursor:pointer;font-weight:bold;color:#000;border-radius:2px}
+.tab-btn.active{background:linear-gradient(#fff,#d4d0c8);border:2px solid #808080;border-right-color:#fff;border-bottom-color:#fff;color:#000}
 .tab-content{display:none}
-.tab-content.active{display:block;animation:fadeIn .25s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;box-shadow:var(--shadow-sm);overflow:hidden}
-.card-header{background:linear-gradient(180deg,#f8fafc,#eef2f7);padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
-.card-header .num{width:26px;height:26px;border-radius:50%;background:var(--primary);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
-.card-header h2{margin:0;font-size:14px;font-weight:700;color:var(--navy)}
-.card-body{padding:16px}
-label{display:block;font-size:12px;font-weight:600;color:var(--navy);margin-bottom:6px}
-input,select{width:100%;padding:11px 13px;border-radius:var(--radius-sm);background:#fff;border:1.5px solid var(--border);outline:none;font-size:14px;font-family:inherit;color:var(--text);transition:all .18s;font-variant-numeric:tabular-nums}
-input:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(30,91,156,.12)}
-input:read-only{background:var(--surface-alt);color:var(--navy);font-weight:600;border-color:var(--border-dark)}
-.input-group{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-.field{margin-bottom:12px}
-button{padding:12px 18px;border-radius:var(--radius-sm);border:none;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;color:#fff;transition:all .15s;display:inline-flex;align-items:center;justify-content:center;gap:8px}
-button:active{transform:scale(.985)}
-button:disabled{opacity:.55;cursor:not-allowed}
-.btn-primary{background:linear-gradient(180deg,#2e7bc4,var(--primary-dark));box-shadow:0 1px 3px rgba(30,91,156,.4),inset 0 1px 0 rgba(255,255,255,.15);width:100%}
-.btn-success{background:linear-gradient(180deg,#0d9b74,var(--accent-dark));box-shadow:0 1px 3px rgba(13,122,95,.4),inset 0 1px 0 rgba(255,255,255,.15);width:100%}
-.btn-danger{background:linear-gradient(180deg,#dc2626,var(--danger-dark));box-shadow:0 1px 3px rgba(185,28,28,.4);width:100%}
-.btn-purple{background:linear-gradient(180deg,#6d47b8,var(--purple));box-shadow:0 1px 3px rgba(91,58,153,.4);width:100%}
-.btn-warning{background:linear-gradient(180deg,#d97706,#b45309);box-shadow:0 1px 3px rgba(180,83,9,.4);width:100%}
-.btn-outline{background:#fff;color:var(--primary);border:1.5px solid var(--primary);width:100%}
-.camera-wrapper{width:100%;position:relative;background:#0a1622;border-radius:var(--radius-sm);overflow:hidden;margin-bottom:12px;min-height:220px;display:flex;align-items:center;justify-content:center;color:#64748b;font-size:13px;text-align:center;padding:20px;box-sizing:border-box;border:1px solid var(--navy-dark)}
-.camera-wrapper video{border-radius:var(--radius-sm)}
-.camera-wrapper.active{border-color:var(--primary);box-shadow:0 0 0 3px rgba(30,91,156,.15)}
-.hint-box{background:#fef3c7;border:1px solid #fcd34d;border-right:4px solid var(--warning);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:12px;font-size:12px;line-height:1.65;color:#78350f;font-weight:500}
-.price-card{background:var(--surface);border:2px solid var(--accent);border-radius:var(--radius);margin-top:14px;display:none;overflow:hidden;box-shadow:0 2px 12px rgba(13,122,95,.15);animation:slideUp .3s ease}
-@keyframes slideUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.price-card .price-head{background:linear-gradient(180deg,var(--accent),var(--accent-dark));color:#fff;padding:12px 16px;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px}
-.price-card .price-body{padding:14px 16px}
-.price-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #e2e8f0;font-size:13px;gap:10px}
+.tab-content.active{display:block}
+
+/* الكاميرا */
+.camera-wrapper{width:100%;position:relative;background:#0a1622;border:2px solid #808080;border-right-color:#fff;border-bottom-color:#fff;overflow:hidden;margin-bottom:8px;min-height:200px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;text-align:center;padding:15px}
+.camera-wrapper.active{border-color:#000}
+.camera-wrapper video{width:100%;height:100%;object-fit:cover}
+
+.hint-box{background:#fff2a8;border:1px solid #b99b00;padding:7px 10px;margin-bottom:8px;font-size:11px;color:#7a4b00;font-weight:bold;line-height:1.5}
+
+/* بطاقة السعر */
+.price-card{border:2px solid #168000;background:#fff;padding:10px;margin-top:10px;display:none}
+.price-head{background:#168000;color:#fff;padding:5px 8px;font-weight:bold;margin:-10px -10px 10px -10px}
+.price-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dashed #ccc;font-size:12px;font-weight:bold}
 .price-row:last-child{border:none}
-.price-row .k{color:var(--text-muted);font-weight:600}
-.price-row .v{font-weight:700;color:var(--text);font-variant-numeric:tabular-nums}
-.sale-tag{font-weight:800;color:var(--danger);font-size:16px}
-.qty-section{margin-top:14px;padding-top:14px;border-top:2px dashed var(--accent)}
-.qty-section .section-title{font-size:12px;font-weight:700;color:var(--accent-dark);margin-bottom:12px;display:flex;align-items:center;gap:8px;padding:6px 10px;background:#ecfdf5;border-radius:var(--radius-sm);border-right:3px solid var(--accent)}
-.qty-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.qty-row label{flex:0 0 60px;margin:0}
-.qty-row .qty-control{flex:1;display:flex;align-items:center;gap:6px}
-.qty-input{flex:1;text-align:center;font-size:16px;font-weight:700;padding:10px 6px;border:1.5px solid var(--border-dark);background:#fff}
-.qty-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(13,122,95,.12)}
-.qty-btn{width:44px;height:44px;padding:0;flex-shrink:0;border-radius:var(--radius-sm);font-size:20px;font-weight:700;color:#fff;border:none}
-.qty-btn.plus{background:linear-gradient(180deg,#0d9b74,var(--accent-dark))}
-.qty-btn.minus{background:linear-gradient(180deg,#64748b,#475569)}
-.total-display{background:#f0fdf4;border:2px solid var(--accent);border-radius:var(--radius-sm);padding:12px 14px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.total-display .lbl{font-size:12px;font-weight:700;color:var(--accent-dark)}
-.total-display .val{font-size:20px;font-weight:800;color:var(--accent-dark);font-variant-numeric:tabular-nums}
-.status-info{padding:10px;text-align:center;font-size:12px;font-weight:600;margin-top:10px;border-radius:var(--radius-sm);background:var(--primary-light);color:var(--primary-dark);border:1px solid #bcd3ea;display:none}
-.ocr-result{padding:10px;margin-top:10px;border-radius:var(--radius-sm);font-size:12px;font-weight:600;text-align:center;display:none;border:1px solid}
-.ocr-result.ok{background:#d1fae5;color:#065f46;border-color:var(--accent)}
-.ocr-result.err{background:#fee2e2;color:#991b1b;border-color:var(--danger)}
-.modal-overlay{position:fixed;inset:0;background:rgba(8,28,48,.72);display:none;align-items:center;justify-content:center;z-index:1000;padding:16px;backdrop-filter:blur(2px)}
-.modal-overlay.show{display:flex;animation:fadeIn .2s}
-.modal-content{background:#fff;width:100%;max-width:420px;border-radius:var(--radius);box-shadow:0 20px 60px rgba(0,0,0,.35);overflow:hidden;animation:modalIn .25s ease}
-@keyframes modalIn{from{opacity:0;transform:scale(.94) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
-.modal-header{background:linear-gradient(180deg,var(--navy),var(--navy-dark));padding:14px 18px;color:#fff;display:flex;align-items:center;gap:10px;border-bottom:2px solid var(--primary)}
-.modal-header h3{margin:0;font-size:15px;font-weight:700}
-.modal-body{padding:18px}
-.modal-body .confirm-summary{background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:14px}
-.modal-body .confirm-row{display:flex;justify-content:space-between;padding:6px 0;font-size:13px;border-bottom:1px dashed #e2e8f0}
-.modal-body .confirm-row:last-child{border:none}
-.modal-body .confirm-row .k{color:var(--text-muted);font-weight:600}
-.modal-body .confirm-row .v{font-weight:700;color:var(--navy)}
-.modal-body .confirm-row.total .v{color:var(--accent-dark);font-size:16px;font-weight:800}
-.modal-body .confirm-question{text-align:center;font-weight:600;font-size:13px;color:var(--navy);padding:6px 0}
-.modal-footer{display:flex;gap:8px;padding:14px 18px;background:var(--surface-alt);border-top:1px solid var(--border)}
-.modal-footer button{flex:1;padding:11px}
-.modal-footer .btn-cancel{background:#fff;color:var(--text);border:1.5px solid var(--border-dark)}
-.modal-footer .btn-confirm{background:linear-gradient(180deg,#0d9b74,var(--accent-dark))}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:linear-gradient(180deg,#0d9b74,var(--accent-dark));color:#fff;padding:12px 22px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;box-shadow:0 8px 24px rgba(13,122,95,.4);z-index:2000;opacity:0;transition:all .3s ease;max-width:90%;display:flex;align-items:center;gap:8px}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.sale-tag{color:#b00000;font-size:14px}
+.total-display{background:#dff0d8;border:1px solid #4f8b4f;padding:8px;display:flex;justify-content:space-between;align-items:center;margin:8px 0;font-weight:bold}
+.total-display .val{font-size:16px;color:#168000}
 
-/* ═════ الخزينة ═════ */
-.treasury-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.stat-box{background:linear-gradient(135deg,#f8fafc,#eef2f7);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;text-align:center}
-.stat-box .stat-label{font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:4px}
-.stat-box .stat-value{font-size:18px;font-weight:800;color:var(--navy);font-variant-numeric:tabular-nums}
-.stat-box.revenue{background:linear-gradient(135deg,#ecfdf5,#d1fae5);border-color:var(--accent)}
-.stat-box.revenue .stat-value{color:var(--accent-dark)}
-.stat-box.profit{background:linear-gradient(135deg,#eff6ff,#dbeafe);border-color:var(--primary)}
-.stat-box.profit .stat-value{color:var(--primary-dark)}
-.stat-box.count{background:linear-gradient(135deg,#fef3c7,#fde68a);border-color:#d97706}
-.stat-box.count .stat-value{color:#78350f}
-.stat-box.items{background:linear-gradient(135deg,#f5f3ff,#ede9fe);border-color:var(--purple)}
-.stat-box.items .stat-value{color:var(--purple)}
-.sales-table{width:100%;border-collapse:collapse;font-size:12px;background:#fff}
-.sales-table thead{background:linear-gradient(180deg,#f1f5f9,#e2e8f0)}
-.sales-table th{padding:9px 6px;border-bottom:2px solid var(--border);font-weight:700;color:var(--navy);text-align:right;font-size:11px}
-.sales-table td{padding:8px 6px;border-bottom:1px solid #e2e8f0;color:var(--text)}
-.sales-table tr:last-child td{border-bottom:none}
-.sales-table tbody tr:hover{background:#f8fafc}
-.sales-table .col-idx{text-align:center;color:var(--text-muted);width:28px}
-.sales-table .col-name{font-weight:600;text-align:right}
-.sales-table .col-num{text-align:center;font-variant-numeric:tabular-nums}
-.sales-table .col-total{font-weight:800;color:var(--accent-dark);text-align:center;font-variant-numeric:tabular-nums}
-.sales-table .col-date{font-size:10px;color:var(--text-muted);text-align:center;white-space:nowrap}
-.sales-table .col-del{text-align:center;width:34px}
-.btn-del-sale{background:linear-gradient(180deg,#dc2626,#991b1b);border:none;color:#fff;width:26px;height:26px;border-radius:4px;font-size:13px;font-weight:700;cursor:pointer;padding:0;display:inline-flex;align-items:center;justify-content:center}
-.btn-del-sale:active{transform:scale(.9)}
-.empty-treasury{text-align:center;padding:30px 14px;color:var(--text-muted);font-size:13px;font-weight:600}
-.empty-treasury .icon{font-size:36px;display:block;margin-bottom:8px;opacity:.5}
-.treasury-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+/* حقول البحث والقائمة */
+.search-row{display:flex;gap:5px;margin-bottom:8px}
+.search-row input{flex:1}
+.search-row .count-box{width:60px;text-align:center;font-weight:bold;background:#e8e8e8}
 
-/* ═════ محرر الكلمات التفاعلي (Google Translate style) ═════ */
-.word-editor-overlay{
-  position:fixed;inset:0;background:rgba(8,28,48,.85);display:none;
-  align-items:flex-start;justify-content:center;z-index:1500;padding:12px;
-  overflow-y:auto;
-}
+.table-scroll-container{width:100%;overflow-x:auto;border:2px solid #808080;border-right-color:#fff;border-bottom-color:#fff;margin-top:6px}
+.classic-table{width:100%;min-width:500px;font-size:11px;text-align:center;border-collapse:collapse}
+.classic-table th{background:linear-gradient(#f7f7f7,#cfcfcf);border:1px solid #000;padding:5px 2px;font-weight:bold}
+.classic-table td{border:1px solid #000;padding:5px 2px;background:#fff;cursor:pointer}
+.classic-table tr:hover td{background:#e0f2fe}
+.classic-table tr.selected td{background:#fde68a;font-weight:bold}
+
+/* محرر الكلمات */
+.word-editor-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:1000;padding:10px}
 .word-editor-overlay.show{display:flex}
-.word-editor{
-  background:#fff;width:100%;max-width:640px;border-radius:var(--radius);
-  box-shadow:0 20px 60px rgba(0,0,0,.5);overflow:hidden;
-  margin-top:8px;margin-bottom:8px;
-}
-.word-editor-header{
-  background:linear-gradient(180deg,var(--navy),var(--navy-dark));
-  padding:12px 16px;color:#fff;display:flex;align-items:center;gap:10px;
-  border-bottom:2px solid var(--primary);
-}
-.word-editor-header h3{margin:0;font-size:14px;font-weight:700;flex:1}
-.word-editor-header .close-btn{
-  background:rgba(255,255,255,.15);border:none;color:#fff;
-  width:30px;height:30px;border-radius:4px;cursor:pointer;
-  font-size:16px;display:inline-flex;align-items:center;justify-content:center;
-  padding:0;
-}
-.word-editor-hint{
-  background:#fef3c7;border-bottom:1px solid #fcd34d;
-  padding:10px 14px;font-size:12px;color:#78350f;font-weight:600;
-  line-height:1.6;
-}
-.word-editor-canvas-wrapper{
-  position:relative;background:#1e293b;
-  max-height:55vh;overflow:auto;
-  display:flex;align-items:center;justify-content:center;
-}
-.word-editor-canvas-wrapper img{
-  display:block;max-width:100%;height:auto;
-  user-select:none;-webkit-user-select:none;
-}
-.word-box{
-  position:absolute;
-  border:2px solid rgba(251,191,36,.85);
-  background:rgba(251,191,36,.08);
-  cursor:pointer;
-  border-radius:3px;
-  transition:all .15s;
-  touch-action:manipulation;
-}
-.word-box:hover{
-  border-color:#f59e0b;
-  background:rgba(251,191,36,.22);
-}
-.word-box.selected{
-  border-color:#10b981;
-  background:rgba(16,185,129,.28);
-  box-shadow:0 0 0 2px rgba(16,185,129,.4);
-}
-.word-box .word-label{
-  position:absolute;top:-19px;left:-2px;
-  background:rgba(251,191,36,.95);color:#000;
-  font-size:10px;font-weight:700;padding:1px 5px;
-  border-radius:3px;white-space:nowrap;
-  pointer-events:none;display:none;
-}
-.word-box:hover .word-label,
-.word-box.selected .word-label{display:block}
-.word-box.selected .word-label{background:#10b981;color:#fff}
-.word-editor-footer{
-  padding:12px 14px;background:var(--surface-alt);
-  border-top:1px solid var(--border);
-}
-.word-editor-selected-info{
-  background:#ecfdf5;border:1px solid var(--accent);
-  padding:8px 12px;border-radius:var(--radius-sm);
-  font-size:12px;font-weight:600;color:var(--accent-dark);
-  margin-bottom:10px;text-align:center;
-  min-height:34px;display:flex;align-items:center;justify-content:center;
-}
-.word-editor-selected-info.empty{
-  background:#f1f5f9;border-color:var(--border);color:var(--text-muted);
-}
-.word-editor-actions{
-  display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;
-}
-.word-editor-actions button{
-  font-size:12px;padding:10px 8px;
-}
-.btn-select-all{background:linear-gradient(180deg,#6d47b8,var(--purple))}
-.btn-deselect-all{background:#fff;color:var(--text-muted);border:1.5px solid var(--border-dark)}
-.btn-confirm-selection{background:linear-gradient(180deg,#0d9b74,var(--accent-dark))}
+.word-editor{background:#d4d0c8;width:100%;max-width:600px;max-height:90vh;border:2px solid #fff;border-right-color:#404040;border-bottom-color:#404040;display:flex;flex-direction:column}
+.word-editor-header{background:linear-gradient(#333,#000);color:#fff;padding:8px 10px;font-weight:bold;display:flex;justify-content:space-between;align-items:center}
+.word-editor-header button{background:linear-gradient(#e85c4a,#a40000);border:1px solid #000;color:#fff;padding:2px 8px}
+.word-editor-canvas-wrapper{overflow:auto;max-height:55vh;background:#000;position:relative;padding:10px;text-align:center}
+.word-editor-canvas-wrapper img{max-width:100%;display:inline-block}
+.word-box{position:absolute;border:2px solid #f59e0b;background:rgba(245,158,11,0.2);cursor:pointer}
+.word-box.selected{border-color:#10b981;background:rgba(16,185,129,0.4);border-width:3px}
+.word-editor-footer{padding:8px;background:#d4d0c8;border-top:1px solid #808080}
+.word-editor-actions{display:flex;gap:5px;margin-top:5px}
+.word-editor-actions button{flex:1}
 
-@media(max-width:480px){
-  .app-header{padding:12px 16px}.app-header h1{font-size:16px}.app-header .subtitle{font-size:10px}
-  .container{padding:12px 10px 24px}.card-body{padding:14px}
-  input,select{font-size:13px;padding:10px 12px}button{font-size:13px;padding:11px 16px}
-  .tab-btn{font-size:11px;padding:10px 4px}.price-row{font-size:12px}.sale-tag{font-size:15px}
-  .total-display .val{font-size:18px}
-  .sales-table{font-size:11px}
-  .sales-table th,.sales-table td{padding:7px 4px}
-  .sales-table .col-date{font-size:9px}
-  .word-editor-actions{grid-template-columns:1fr 1fr;}
-  .word-editor-actions .btn-confirm-selection{grid-column:1 / -1;}
+/* نافذة تأكيد */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.62);display:none;align-items:center;justify-content:center;z-index:1000;padding:10px}
+.modal-overlay.show{display:flex}
+.modal-content{background:#d4d0c8;width:100%;max-width:400px;border:2px solid #fff;border-right-color:#404040;border-bottom-color:#404040;padding:10px;box-shadow:2px 2px #000}
+.modal-content h3{font-size:13px;margin:0 0 10px;text-align:right;color:#fff;background:linear-gradient(#333,#000);padding:6px;border:1px solid #000}
+
+@media(max-width:520px){
+  body{padding:0;background:#d4d0c8}.container{max-width:none;border-radius:0;box-shadow:none;padding:3px;min-height:100vh}
+  h1{font-size:14px}.card{padding:6px}.tab-btn{font-size:12px}
+  .classic-table{font-size:10px}.search-row .count-box{width:50px}
 }
-input[type="number"]::-webkit-outer-spin-button,input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-input[type="number"]{-moz-appearance:textfield}
 </style>
 </head>
 <body>
-
-<header class="app-header">
-  <div class="app-header-inner">
-    <div style="display:flex;align-items:center;gap:12px">
-      <div class="logo">💊</div>
-      <div>
-        <h1>نظام إدارة الصيدلية</h1>
-        <div class="subtitle">PHARMACY MANAGEMENT SYSTEM</div>
-      </div>
-    </div>
-    <span class="badge">v2.3</span>
-  </div>
-</header>
-
-<main class="container">
+<div class="container">
+<h1>💊 نظام إدارة الصيدلية</h1>
 
 <div class="tabs">
   <button id="btn-add" class="tab-btn active" onclick="switchTab('add-tab')">📥 إدخال</button>
-  <button id="btn-view" class="tab-btn" onclick="switchTab('view-tab')">🔍 السعر</button>
+  <button id="btn-view" class="tab-btn" onclick="switchTab('view-tab')">🔍 السعر والبيع</button>
   <button id="btn-treasury" class="tab-btn" onclick="switchTab('treasury-tab')">💰 الخزينة</button>
 </div>
 
+<!-- ================= التبويبة الأولى: الإدخال ================= -->
 <div id="add-tab" class="tab-content active">
-
   <div class="card">
-    <div class="card-header"><span class="num">1</span><h2>مسح الباركود بالكاميرا</h2></div>
-    <div class="card-body">
-      <div class="hint-box">
-        ⚠️ عند الضغط على زر التشغيل سيطلب المتصفح <b>صلاحية الكاميرا</b> — اختر <b>السماح / Allow</b>.<br>
-        💡 للحصول على أفضل قراءة: قرّب الباركود ليملأ الإطار، وحافظ على ثبات اليد، وأضئ المكان جيداً.
-      </div>
-      <div id="add-scanner" class="camera-wrapper">📷 الكاميرا متوقفة — اضغط زر التشغيل بالأسفل</div>
-      <button id="add-start-btn" class="btn-primary" onclick="startAutoScanner('add-scanner', onAddScanSuccess, 'add-start-btn')">📷 تشغيل الكاميرا لقراءة الباركود</button>
-      <button id="add-stop-btn" class="btn-danger" style="display:none;margin-top:8px" onclick="stopScanner('add-start-btn','add-stop-btn')">⏹ إيقاف الكاميرا</button>
-
-      <div class="field" style="margin-top:12px">
-        <label>الباركود المقروء تلقائياً:</label>
-        <input type="text" id="add-barcode" placeholder="وجه الكاميرا وسيمتلئ تلقائياً" readonly>
-      </div>
+    <h2>1. مسح الباركود بالكاميرا</h2>
+    <div class="hint-box">💡 عند الضغط على زر التشغيل سيطلب المتصفح صلاحية الكاميرا — اختر السماح. (تأكد من فتح الموقع برابط HTTPS).</div>
+    <div id="add-scanner" class="camera-wrapper">📷 الكاميرا متوقفة</div>
+    <button id="add-start-btn" class="btn-primary" onclick="startAutoScanner('add-scanner', onAddScanSuccess, 'add-start-btn')">📷 تشغيل الكاميرا للباركود</button>
+    <button id="add-stop-btn" class="btn-danger" style="display:none" onclick="stopScanner('add-start-btn','add-stop-btn')">⏹ إيقاف الكاميرا</button>
+    <div style="margin-top:8px">
+      <label>الباركود المقروء:</label>
+      <input type="text" id="add-barcode" readonly>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-header"><span class="num">2</span><h2>التعرف الذكي على اسم العلاج (OCR)</h2></div>
-    <div class="card-body">
-      <div class="hint-box">
-        📸 وجّه الكاميرا نحو <b>اسم العلاج</b> على العلبة، ثم اضغط "التقاط الصورة".<br>
-        🎯 بعد التعرف ستظهر لك <b>مربعات حول كل كلمة</b> — اضغط على الكلمات التي تريدها فقط لتشكيل الاسم.
-      </div>
-      <div id="ocr-scanner" class="camera-wrapper">📷 كاميرا التعرف متوقفة</div>
-      <button id="ocr-start-btn" class="btn-purple" onclick="startOcrCamera()">🔎 فتح الكاميرا للتعرف على اسم العلاج</button>
-      <button id="ocr-stop-btn" class="btn-danger" style="display:none;margin-top:8px" onclick="stopOcrCamera()">⏹ إيقاف كاميرا التعرف</button>
-      <button id="ocr-capture-btn" class="btn-success" style="display:none;margin-top:8px" onclick="captureAndRecognize()">📸 التقاط الصورة والتعرف على الاسم</button>
-      <div id="ocr-result" class="ocr-result"></div>
-      <div id="ocr-status" class="status-info"></div>
-    </div>
+    <h2>2. التعرف الذكي على اسم العلاج (OCR)</h2>
+    <div class="hint-box">📸 صوّر اسم العلاج، ثم حدد الكلمات التي تريدها فقط لتشكيل الاسم.</div>
+    <div id="ocr-scanner" class="camera-wrapper">📷 كاميرا التعرف متوقفة</div>
+    <button id="ocr-start-btn" class="btn-purple" onclick="startOcrCamera()">🔎 فتح الكاميرا للتعرف</button>
+    <button id="ocr-stop-btn" class="btn-danger" style="display:none" onclick="stopOcrCamera()">⏹ إيقاف الكاميرا</button>
+    <button id="ocr-capture-btn" class="btn-success" style="display:none" onclick="captureAndRecognize()">📸 التقاط والتعرف</button>
+    <div id="ocr-result" class="hint-box" style="display:none;background:#dff0d8;border-color:#4f8b4f;color:#064d06"></div>
   </div>
 
   <div class="card">
-    <div class="card-header"><span class="num">3</span><h2>بيانات العلاج والأسعار</h2></div>
-    <div class="card-body">
-      <div class="field">
-        <label>اسم العلاج (يمكن تعديله يدوياً):</label>
-        <input type="text" id="medicine-name" placeholder="مثال: Panadol Extra">
-      </div>
-      <div class="input-group">
-        <div><label>السعر الافتراضي (التكلفة)</label><input type="number" id="cost-price" inputmode="numeric" placeholder="سعر الشراء"></div>
-        <div><label>سعر البيع للمستهلك</label><input type="number" id="sale-price" inputmode="numeric" placeholder="سعر البيع"></div>
-      </div>
-      <button class="btn-success" onclick="saveMedicine()">💾 حفظ العلاج في قاعدة البيانات</button>
+    <h2>3. بيانات العلاج والأسعار</h2>
+    <div style="margin-bottom:7px">
+      <label>اسم العلاج:</label>
+      <input type="text" id="medicine-name">
     </div>
+    <div class="input-group">
+      <div><label>سعر الشراء (التكلفة)</label><input type="number" id="cost-price"></div>
+      <div><label>سعر البيع للمستهلك</label><input type="number" id="sale-price"></div>
+    </div>
+    <button class="btn-success" onclick="saveMedicine()">💾 حفظ العلاج في قاعدة البيانات</button>
   </div>
 
+  <!-- قسم العلاجات المتوفرة الجديد في الأسفل -->
+  <div class="card">
+    <h2>📦 العلاجات المتوفرة في المخزون</h2>
+    <div style="display:flex; align-items:center; margin-bottom:8px;">
+      <div style="flex:1; margin-left:8px; background:linear-gradient(#f7f7f7,#dcdcdc); border:1px solid #808080; padding:5px 7px; font-weight:bold; font-size:13px; color:#000; text-align:right;">
+        إجمالي العلاجات المسجلة:
+      </div>
+      <input type="text" id="add-total-count" readonly style="width:60px; text-align:center; font-weight:bold; background:#e8e8e8; border-top:2px solid #808080; border-left:2px solid #808080; border-right:2px solid #fff; border-bottom:2px solid #fff; padding:5px 2px; box-sizing:border-box;">
+    </div>
+    <div class="table-scroll-container" style="max-height:250px">
+      <table class="classic-table">
+        <thead>
+          <tr>
+            <th>اسم العلاج</th>
+            <th>الباركود</th>
+            <th>سعر البيع</th>
+            <th>سعر الشراء</th>
+          </tr>
+        </thead>
+        <tbody id="add-medicine-list">
+          <tr><td colspan="4" style="text-align:center">لا توجد بيانات</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
+<!-- ================= التبويبة الثانية: السعر والبيع ================= -->
 <div id="view-tab" class="tab-content">
-
+  
+  <!-- 1. البيع السريع بالباركود (تم تقديمه للأعلى) -->
   <div class="card">
-    <div class="card-header"><span class="num">🔍</span><h2>كشف السعر الفوري بالباركود</h2></div>
-    <div class="card-body">
-      <div class="hint-box">
-        ⚠️ اسمح بالوصول إلى الكاميرا عند طلب المتصفح لعرض سعر العلاج فوراً.<br>
-        💡 قرّب الباركود ليملأ الإطار ثم ثبّت يدك لحظة.
+    <h2>📷 1. البيع السريع بالباركود</h2>
+    <div id="view-scanner" class="camera-wrapper">📷 الكاميرا متوقفة</div>
+    <button id="view-start-btn" class="btn-primary" onclick="startAutoScanner('view-scanner', onViewScanSuccess, 'view-start-btn')">📷 تشغيل كاميرا البيع</button>
+    <button id="view-stop-btn" class="btn-danger" style="display:none" onclick="stopScanner('view-start-btn','view-stop-btn')">⏹ إيقاف الكاميرا</button>
+  </div>
+
+  <!-- 2. قسم البحث الشامل (تم وضعه بالأسفل) -->
+  <div class="card">
+    <h2>🔍 2. البحث عن العلاجات المتوفرة</h2>
+    <div style="display:flex; align-items:center; margin-bottom:8px;">
+      <input type="text" id="search-medicine" oninput="renderSearchList()" placeholder="ابحث بالاسم أو الباركود..." style="flex:1; margin-left:8px; border-top:2px solid #808080; border-left:2px solid #808080; border-right:2px solid #fff; border-bottom:2px solid #fff; padding:5px 7px; font-family:Tahoma,Arial; font-size:13px; outline:none;">
+      <input type="text" id="search-count" readonly value="0" style="width:60px; text-align:center; font-weight:bold; background:#e8e8e8; border-top:2px solid #808080; border-left:2px solid #808080; border-right:2px solid #fff; border-bottom:2px solid #fff; padding:5px 2px; box-sizing:border-box; outline:none; color:#000; font-family:Tahoma,Arial; font-size:13px;">
+    </div>
+    <div class="table-scroll-container" style="max-height:200px">
+      <table class="classic-table">
+        <thead>
+          <tr>
+            <th>اسم العلاج</th>
+            <th>الباركود</th>
+            <th>سعر البيع</th>
+            <th>سعر الشراء</th>
+          </tr>
+        </thead>
+        <tbody id="search-table-body">
+          <tr><td colspan="4" style="text-align:center">لا توجد بيانات</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- قسم إتمام البيع (يظهر عند اختيار دواء) -->
+  <div class="card" id="sale-panel" style="display:none">
+    <h2>🛒 إتمام عملية البيع</h2>
+    <div class="price-card" style="display:block; margin-top:0">
+      <div class="price-head">💊 تفاصيل العلاج المحدد</div>
+      <div class="price-row"><span>📝 اسم العلاج</span><span id="res-name" style="color:#1e5b9c"></span></div>
+      <div class="price-row"><span>📊 باركود المادة</span><span id="res-barcode"></span></div>
+      
+      <div style="margin-top:10px; border-top:1px dashed #ccc; padding-top:10px">
+        <div class="price-row"><span>💰 سعر الشراء (التكلفة)</span><span id="res-cost"></span> د.ع</div>
+        <div class="price-row"><span>🏷️ سعر البيع (للوحدة)</span><span id="res-sale" class="sale-tag"></span></div>
       </div>
-      <div id="view-scanner" class="camera-wrapper">📷 الكاميرا متوقفة — اضغط زر التشغيل بالأسفل</div>
-      <button id="view-start-btn" class="btn-primary" onclick="startAutoScanner('view-scanner', onViewScanSuccess, 'view-start-btn')">📷 تشغيل كاميرا البيع الفوري</button>
-      <button id="view-stop-btn" class="btn-danger" style="display:none;margin-top:8px" onclick="stopScanner('view-start-btn','view-stop-btn')">⏹ إيقاف الكاميرا</button>
 
-      <div id="price-card" class="price-card">
-        <div class="price-head">💊 تفاصيل العلاج</div>
-        <div class="price-body">
-          <div class="price-row"><span class="k">📝 اسم العلاج</span><span id="res-name" class="v" style="color:var(--primary)"></span></div>
-          <div class="price-row"><span class="k">💰 سعر التكلفة</span><span class="v"><span id="res-cost"></span> د.ع</span></div>
-          <div class="price-row"><span class="k">🏷️ سعر البيع للمستهلك</span><span id="res-sale" class="sale-tag"></span></div>
-          <div class="price-row"><span class="k">📊 باركود المادة</span><span class="v" id="res-barcode" style="font-family:monospace"></span></div>
-
-          <div class="qty-section">
-            <div class="section-title">🛒 حساب كمية البيع</div>
-            <div class="qty-row">
-              <label>العدد:</label>
-              <div class="qty-control">
-                <button type="button" class="qty-btn minus" onclick="changeQty(-1)">−</button>
-                <input type="number" id="qty-count" class="qty-input" value="1" min="1" inputmode="numeric" oninput="recalcTotal()">
-                <button type="button" class="qty-btn plus" onclick="changeQty(1)">+</button>
-              </div>
-            </div>
-            <div class="input-group">
-              <div><label>سعر الشراء (التكلفة)</label><input type="number" id="qty-cost" readonly placeholder="0"></div>
-              <div><label>سعر البيع (للوحدة)</label><input type="number" id="qty-unit-sale" readonly placeholder="0"></div>
-            </div>
-            <div class="total-display">
-              <span class="lbl">💵 السعر الكلي</span>
-              <span class="val"><span id="qty-total-display">0</span> د.ع</span>
-            </div>
-            <button class="btn-success" onclick="openSaveConfirm()">💾 حفظ السعر الكلي</button>
-          </div>
+      <div style="margin-top:10px">
+        <label>العدد المطلوب:</label>
+        <div style="display:flex; gap:5px">
+          <button class="btn-danger" style="width:40px; padding:5px" onclick="changeQty(-1)">−</button>
+          <input type="number" id="qty-count" value="1" min="1" oninput="recalcTotal()" style="text-align:center; font-size:16px; font-weight:bold">
+          <button class="btn-success" style="width:40px; padding:5px" onclick="changeQty(1)">+</button>
         </div>
       </div>
+
+      <div class="total-display">
+        <span>💵 السعر الكلي:</span>
+        <span class="val"><span id="qty-total-display">0</span> د.ع</span>
+      </div>
+
+      <button class="btn-success" onclick="openSaveConfirm()">💾 حفظ عملية البيع في الخزينة</button>
+      <button class="btn-warning" onclick="closeSalePanel()">إلغاء وتغيير الدواء</button>
     </div>
   </div>
 
 </div>
 
+<!-- ================= التبويبة الثالثة: الخزينة ================= -->
 <div id="treasury-tab" class="tab-content">
   <div class="card">
-    <div class="card-header"><span class="num">💰</span><h2>ملخص الخزينة</h2></div>
-    <div class="card-body">
-      <div class="treasury-stats">
-        <div class="stat-box revenue"><div class="stat-label">💵 إجمالي المبالغ المحصّلة</div><div class="stat-value" id="stat-revenue">0 د.ع</div></div>
-        <div class="stat-box profit"><div class="stat-label">📈 صافي الربح</div><div class="stat-value" id="stat-profit">0 د.ع</div></div>
-        <div class="stat-box count"><div class="stat-label">🧾 عدد عمليات البيع</div><div class="stat-value" id="stat-count">0</div></div>
-        <div class="stat-box items"><div class="stat-label">📦 إجمالي القطع المباعة</div><div class="stat-value" id="stat-items">0</div></div>
+    <h2>💰 ملخص الخزينة</h2>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-bottom:10px">
+      <div style="background:#dff0d8; border:1px solid #4f8b4f; padding:8px; text-align:center">
+        <div style="font-size:10px; color:#064d06">إجمالي المحصّل</div>
+        <div style="font-size:14px; font-weight:bold; color:#064d06" id="stat-revenue">0 د.ع</div>
+      </div>
+      <div style="background:#e0f2fe; border:1px solid #0284c7; padding:8px; text-align:center">
+        <div style="font-size:10px; color:#0369a1">الربح $</div>
+        <div style="font-size:14px; font-weight:bold; color:#0369a1" id="stat-profit">0 د.ع</div>
+      </div>
+      <div style="background:#fff2a8; border:1px solid #b99b00; padding:8px; text-align:center">
+        <div style="font-size:10px; color:#7a4b00">عدد العمليات</div>
+        <div style="font-size:14px; font-weight:bold; color:#7a4b00" id="stat-count">0</div>
+      </div>
+      <div style="background:#f3e8ff; border:1px solid #9333ea; padding:8px; text-align:center">
+        <div style="font-size:10px; color:#6b21a8">القطع المباعة</div>
+        <div style="font-size:14px; font-weight:bold; color:#6b21a8" id="stat-items">0</div>
       </div>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-header"><span class="num">📋</span><h2>سجل عمليات البيع</h2></div>
-    <div class="card-body">
-      <div id="sales-container"></div>
-      <div class="treasury-actions">
-        <button class="btn-warning" onclick="clearAllSales()">🗑️ مسح كل السجل</button>
-        <button class="btn-primary" onclick="renderTreasury()">🔄 تحديث</button>
-      </div>
+    <h2>📋 سجل عمليات البيع</h2>
+    <div class="table-scroll-container" style="max-height:300px">
+      <table class="classic-table">
+        <thead>
+          <tr>
+            <th>الاسم</th>
+            <th>العدد</th>
+            <th>الإجمالي</th>
+            <th>التاريخ</th>
+            <th>حذف</th>
+          </tr>
+        </thead>
+        <tbody id="sales-container"></tbody>
+      </table>
     </div>
+    <button class="btn-danger" onclick="clearAllSales()" style="margin-top:10px">🗑️ مسح كل السجل</button>
   </div>
 </div>
-</main>
+</div>
 
-<!-- نافذة تأكيد حفظ السعر -->
+<!-- نافذة تأكيد البيع -->
 <div class="modal-overlay" id="confirmModal">
   <div class="modal-content">
-    <div class="modal-header"><span style="font-size:18px">✔️</span><h3>تأكيد حفظ السعر الكلي</h3></div>
-    <div class="modal-body">
-      <div class="confirm-summary">
-        <div class="confirm-row"><span class="k">اسم العلاج</span><span class="v" id="cf-name">—</span></div>
-        <div class="confirm-row"><span class="k">العدد</span><span class="v" id="cf-qty">1</span></div>
-        <div class="confirm-row"><span class="k">سعر الوحدة</span><span class="v"><span id="cf-unit"></span> د.ع</span></div>
-        <div class="confirm-row total"><span class="k">السعر الكلي</span><span class="v"><span id="cf-total"></span> د.ع</span></div>
-      </div>
-      <div class="confirm-question">هل أنت متأكد من حفظ هذه العملية؟</div>
+    <h3>✔️ تأكيد حفظ السعر الكلي</h3>
+    <div style="background:#fff; border:1px solid #808080; padding:8px; margin-bottom:10px">
+      <div style="display:flex; justify-content:space-between; margin-bottom:5px"><span>اسم العلاج:</span><b id="cf-name">—</b></div>
+      <div style="display:flex; justify-content:space-between; margin-bottom:5px"><span>العدد:</span><b id="cf-qty">1</b></div>
+      <div style="display:flex; justify-content:space-between; margin-bottom:5px"><span>سعر الوحدة:</span><b id="cf-unit">0</b> د.ع</div>
+      <div style="display:flex; justify-content:space-between; border-top:1px dashed #ccc; padding-top:5px; color:#b00000"><span>السعر الكلي:</span><b id="cf-total">0</b> د.ع</div>
     </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeConfirmModal()">إلغاء</button>
-      <button class="btn-confirm" onclick="confirmSaveTotal()">تأكيد الحفظ</button>
+    <div style="text-align:center; font-weight:bold; margin-bottom:10px">هل أنت متأكد من حفظ هذه العملية؟</div>
+    <div style="display:flex; gap:5px">
+      <button class="btn-danger" onclick="closeConfirmModal()" style="margin:0">إلغاء</button>
+      <button class="btn-success" onclick="confirmSaveTotal()" style="margin:0">تأكيد الحفظ</button>
     </div>
   </div>
 </div>
 
-<!-- ═════ محرر الكلمات التفاعلي ═════ -->
+<!-- محرر الكلمات التفاعلي -->
 <div class="word-editor-overlay" id="wordEditorOverlay">
   <div class="word-editor">
     <div class="word-editor-header">
-      <h3>🎯 حدد الكلمات التي تريدها كاسم للعلاج</h3>
-      <button class="close-btn" onclick="closeWordEditor()">✕</button>
-    </div>
-    <div class="word-editor-hint">
-      اضغط على المربعات الصفراء لاختيار الكلمات (تتحول للأخضر عند التحديد). اختر كلمة أو أكثر ثم اضغط "تأكيد الاختيار".
+      <span>🎯 حدد الكلمات كاسم للعلاج</span>
+      <button onclick="closeWordEditor()">✕</button>
     </div>
     <div class="word-editor-canvas-wrapper" id="wordEditorCanvasWrapper">
-      <div style="position:relative;display:inline-block" id="wordEditorImageContainer">
+      <div style="position:relative; display:inline-block" id="wordEditorImageContainer">
         <img id="wordEditorImage" src="" alt="صورة العلاج">
-        <!-- المربعات ستُضاف هنا -->
       </div>
     </div>
     <div class="word-editor-footer">
-      <div class="word-editor-selected-info empty" id="wordEditorSelectedInfo">
+      <div id="wordEditorSelectedInfo" style="background:#fff; padding:6px; border:1px solid #808080; font-size:11px; font-weight:bold; text-align:center; margin-bottom:5px">
         لم تختر أي كلمة بعد
       </div>
       <div class="word-editor-actions">
-        <button class="btn-select-all" onclick="selectAllWords()">✓ الكل</button>
-        <button class="btn-deselect-all" onclick="deselectAllWords()">✕ إلغاء الكل</button>
-        <button class="btn-confirm-selection" onclick="confirmWordSelection()">✔️ تأكيد الاختيار</button>
+        <button class="btn-warning" onclick="selectAllWords()">✓ الكل</button>
+        <button onclick="deselectAllWords()" style="background:#fff; color:#000">✕ إلغاء الكل</button>
+        <button class="btn-success" onclick="confirmWordSelection()">✔️ تأكيد</button>
       </div>
     </div>
   </div>
 </div>
-
-<div class="toast" id="successToast">✅ <span id="toast-text">تم الحفظ بنجاح</span></div>
 
 <script>
 "use strict";
 
-/* =========================================================
-   التخزين
-   ========================================================= */
 const DB_KEY = 'pharmacy_smart_db';
 const SALES_KEY = 'pharmacy_sales_log';
 let html5QrcodeScanner = null;
 let ocrStream = null;
 let ocrVideo = null;
 let currentMedicine = null;
-
 let lastScannedCode = null;
 let lastScannedTime = 0;
 const SCAN_COOLDOWN = 1500;
-
-/* حالة محرر الكلمات */
-let wordEditorState = {
-  words: [],       // مصفوفة الكلمات المستخرجة من Tesseract مع إحداثياتها
-  selected: new Set() // indices الكلمات المحددة
-};
+let wordEditorState = { words: [], selected: new Set() };
 
 function readDB(){ try{return JSON.parse(localStorage.getItem(DB_KEY))||{};}catch(e){return{};} }
 function writeDB(db){ localStorage.setItem(DB_KEY, JSON.stringify(db)); }
 function readSales(){ try{return JSON.parse(localStorage.getItem(SALES_KEY))||[];}catch(e){return[];} }
 function writeSales(list){ localStorage.setItem(SALES_KEY, JSON.stringify(list)); }
 
-/* =========================================================
-   📷 الماسح الذكي
-   ========================================================= */
+// ================= الماسح الذكي جداً (يدعم كل الصيغ) =================
 async function startAutoScanner(elementId, successCallback, startBtnId){
   const wrapper = document.getElementById(elementId);
-  if(html5QrcodeScanner){
-    try { await html5QrcodeScanner.stop(); } catch(e){}
-    html5QrcodeScanner = null;
-  }
+  if(html5QrcodeScanner){ try { await html5QrcodeScanner.stop(); } catch(e){} html5QrcodeScanner = null; }
 
   try{
-    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
-      throw new Error("هذا المتصفح لا يدعم الكاميرا.");
-    }
-    const stream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: { ideal: "environment" }, width: { ideal: 1920 }, height: { ideal: 1080 } }
+    const stream = await navigator.mediaDevices.getUserMedia({ 
+      video: { facingMode: { ideal: "environment" }, width: { ideal: 1920 }, height: { ideal: 1080 } } 
     });
     stream.getTracks().forEach(t => t.stop());
   } catch(err){
-    let msg = "تعذّر الوصول إلى الكاميرا.\n\n";
-    if(err.name === "NotAllowedError"){
-      msg += "❌ تم رفض صلاحية الكاميرا.\n\n📱 على الهاتف:\n1) اضغط أيقونة 🔒 بجانب العنوان.\n2) اختر 'صلاحيات الموقع'.\n3) فعّل 'الكاميرا'.\n4) أعد تحميل الصفحة.";
-    }
-    else if(err.name === "NotFoundError") msg += "❌ لا توجد كاميرا متاحة.";
-    else if(err.name === "NotReadableError") msg += "❌ الكاميرا مستخدمة من تطبيق آخر.";
-    else msg += "تفاصيل: " + (err.message || err.name);
-    alert(msg);
-    wrapper.innerHTML = "📷 تعذّر تشغيل الكاميرا";
+    alert("تعذّر الوصول للكاميرا. تأكد من استخدام HTTPS والسماح بالكاميرا.");
     return;
   }
 
@@ -503,24 +361,25 @@ async function startAutoScanner(elementId, successCallback, startBtnId){
   wrapper.classList.add('active');
 
   try{
-    html5QrcodeScanner = new Html5Qrcode(elementId, {
-      experimentalFeatures: { useBarCodeDetectorIfSupported: true },
-      verbose: false
+    html5QrcodeScanner = new Html5Qrcode(elementId, { 
+      experimentalFeatures: { useBarCodeDetectorIfSupported: true }, 
+      verbose: false 
     });
 
-    const wrappedCallback = (decodedText, decodedResult) => {
+    const wrappedCallback = (decodedText) => {
       const now = Date.now();
       if(decodedText === lastScannedCode && (now - lastScannedTime) < SCAN_COOLDOWN) return;
       lastScannedCode = decodedText;
       lastScannedTime = now;
-      successCallback(decodedText, decodedResult);
+      successCallback(decodedText);
     };
 
+    // إعدادات خارقة لقراءة كل انواع الباركودات بدقة وسرعة
     const config = {
       fps: 30,
-      qrbox: function(vw, vh){
+      qrbox: function(vw, vh) {
         const minSide = Math.min(vw, vh);
-        return { width: Math.floor(minSide * 0.75), height: Math.floor(minSide * 0.45) };
+        return { width: Math.floor(minSide * 0.85), height: Math.floor(minSide * 0.45) };
       },
       aspectRatio: 1.777,
       disableFlip: false,
@@ -530,94 +389,173 @@ async function startAutoScanner(elementId, successCallback, startBtnId){
         Html5QrcodeSupportedFormats.CODE_128, Html5QrcodeSupportedFormats.CODE_39,
         Html5QrcodeSupportedFormats.CODE_93, Html5QrcodeSupportedFormats.ITF,
         Html5QrcodeSupportedFormats.CODABAR, Html5QrcodeSupportedFormats.QR_CODE,
-        Html5QrcodeSupportedFormats.DATA_MATRIX
+        Html5QrcodeSupportedFormats.DATA_MATRIX, Html5QrcodeSupportedFormats.PDF417,
+        Html5QrcodeSupportedFormats.AZTEC
       ]
     };
 
-    await html5QrcodeScanner.start({ facingMode: "environment" }, config, wrappedCallback, () => {});
+    await html5QrcodeScanner.start({ facingMode: "environment" }, config, wrappedCallback);
 
     document.getElementById(startBtnId).style.display = 'none';
     const stopBtnId = startBtnId.replace('start','stop');
     document.getElementById(stopBtnId).style.display = 'block';
-
-  } catch(err){
-    wrapper.innerHTML = "📷 تعذّر بدء الكاميرا — " + (err.message || err);
-    alert("تعذّر بدء الكاميرا.\n" + (err.message || err));
-  }
+  } catch(err){ alert("تعذّر بدء الكاميرا."); }
 }
 
 async function stopScanner(startBtnId, stopBtnId){
-  if(html5QrcodeScanner){
-    try { await html5QrcodeScanner.stop(); } catch(e){}
-    html5QrcodeScanner = null;
-  }
+  if(html5QrcodeScanner){ try { await html5QrcodeScanner.stop(); } catch(e){} html5QrcodeScanner = null; }
   document.getElementById(startBtnId).style.display = 'block';
   document.getElementById(stopBtnId).style.display = 'none';
   const wrap = document.getElementById(startBtnId.replace('-start-btn','-scanner'));
-  if(wrap){
-    wrap.innerHTML = "📷 الكاميرا متوقفة";
-    wrap.classList.remove('active');
-  }
+  if(wrap){ wrap.innerHTML = "📷 الكاميرا متوقفة"; wrap.classList.remove('active'); }
 }
 
 async function stopAfterSuccess(){
-  if(html5QrcodeScanner){
-    try { await html5QrcodeScanner.stop(); } catch(e){}
-    html5QrcodeScanner = null;
-  }
+  if(html5QrcodeScanner){ try { await html5QrcodeScanner.stop(); } catch(e){} html5QrcodeScanner = null; }
 }
 
+// ================= الإدخال =================
 async function onAddScanSuccess(decodedText){
   await stopAfterSuccess();
   document.getElementById('add-start-btn').style.display = 'block';
   document.getElementById('add-stop-btn').style.display = 'none';
   document.getElementById('add-scanner').classList.remove('active');
-
   document.getElementById('add-barcode').value = decodedText;
-  if(navigator.vibrate) navigator.vibrate([80, 40, 80]);
-  playBeepSound();
 }
 
+function renderAddList(){
+  const db = readDB();
+  const tbody = document.getElementById('add-medicine-list');
+  const countBox = document.getElementById('add-total-count');
+  
+  const keys = Object.keys(db);
+  countBox.value = keys.length;
+
+  if(keys.length === 0){
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center">لا توجد بيانات</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = '';
+  keys.forEach(barcode => {
+    const med = db[barcode];
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="text-align:right; font-weight:bold">${escapeHtml(med.name)}</td>
+      <td>${barcode}</td>
+      <td style="color:#b00000; font-weight:bold">${Number(med.sale).toLocaleString()}</td>
+      <td>${Number(med.cost).toLocaleString()}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function saveMedicine(){
+  const barcode = document.getElementById('add-barcode').value.trim();
+  const name    = document.getElementById('medicine-name').value.trim();
+  const cost    = document.getElementById('cost-price').value;
+  const sale    = document.getElementById('sale-price').value;
+
+  if(!barcode) return alert("يرجى مسح الباركود أولاً!");
+  if(!name || !cost || !sale) return alert("يرجى ملء جميع الحقول!");
+
+  const db = readDB();
+
+  if(db[barcode]){
+    if(!confirm(`⚠️ الباركود موجود مسبقاً باسم: (${db[barcode].name}).\nهل تريد تحديث البيانات الجديدة؟`)) return;
+  }
+
+  db[barcode] = { name, cost, sale };
+  writeDB(db);
+  
+  alert("✅ تم حفظ العلاج بنجاح!");
+  document.getElementById('add-barcode').value = '';
+  document.getElementById('medicine-name').value = '';
+  document.getElementById('cost-price').value = '';
+  document.getElementById('sale-price').value = '';
+  
+  renderAddList();
+}
+
+// ================= البيع والبحث =================
 async function onViewScanSuccess(decodedText){
   await stopAfterSuccess();
   document.getElementById('view-start-btn').style.display = 'block';
   document.getElementById('view-stop-btn').style.display = 'none';
   document.getElementById('view-scanner').classList.remove('active');
 
-  if(navigator.vibrate) navigator.vibrate([80, 40, 80]);
-  playBeepSound();
-
   const db = readDB();
-  const medicine = db[decodedText];
-  const priceCard = document.getElementById('price-card');
-
-  if(medicine){
-    currentMedicine = {
-      name: medicine.name,
-      cost: Number(medicine.cost) || 0,
-      sale: Number(medicine.sale) || 0,
-      barcode: decodedText
-    };
-
-    document.getElementById('res-barcode').innerText = decodedText;
-    document.getElementById('res-name').innerText    = medicine.name;
-    document.getElementById('res-cost').innerText    = Number(medicine.cost).toLocaleString();
-    document.getElementById('res-sale').innerText    = Number(medicine.sale).toLocaleString() + " د.ع";
-
-    document.getElementById('qty-count').value = 1;
-    document.getElementById('qty-cost').value = Number(medicine.cost) || 0;
-    document.getElementById('qty-unit-sale').value = Number(medicine.sale) || 0;
-    recalcTotal();
-
-    priceCard.style.display = 'block';
+  if(db[decodedText]){
+    openSalePanel(decodedText, db[decodedText]);
   } else {
-    currentMedicine = null;
-    priceCard.style.display = 'none';
-    if(confirm("هذا العلاج غير مسجل!\nهل تريد الذهاب لتبويبة الإدخال لحفظه؟\nالباركود: " + decodedText)){
-      switchTab('add-tab');
-      document.getElementById('add-barcode').value = decodedText;
+    alert("هذا العلاج غير مسجل! الباركود: " + decodedText);
+  }
+}
+
+function renderSearchList(){
+  const db = readDB();
+  const query = document.getElementById('search-medicine').value.trim().toLowerCase();
+  const tbody = document.getElementById('search-table-body');
+  const countBox = document.getElementById('search-count');
+  
+  let results = [];
+  for(let barcode in db){
+    const med = db[barcode];
+    if(med.name.toLowerCase().includes(query) || barcode.includes(query)){
+      results.push({ barcode, ...med });
     }
   }
+
+  countBox.textContent = results.length;
+
+  if(results.length === 0){
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center">لا توجد نتائج مطابقة</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = '';
+  results.forEach(med => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="text-align:right; font-weight:bold">${escapeHtml(med.name)}</td>
+      <td>${med.barcode}</td>
+      <td style="color:#b00000; font-weight:bold">${Number(med.sale).toLocaleString()}</td>
+      <td>${Number(med.cost).toLocaleString()}</td>
+    `;
+    tr.onclick = () => {
+      document.querySelectorAll('#search-table-body tr').forEach(r => r.classList.remove('selected'));
+      tr.classList.add('selected');
+      openSalePanel(med.barcode, med);
+    };
+    tbody.appendChild(tr);
+  });
+}
+
+function openSalePanel(barcode, med){
+  document.getElementById('sale-panel').style.display = 'block';
+  
+  currentMedicine = {
+    name: med.name,
+    cost: Number(med.cost) || 0,
+    sale: Number(med.sale) || 0,
+    barcode: barcode
+  };
+
+  document.getElementById('res-barcode').innerText = barcode;
+  document.getElementById('res-name').innerText = med.name;
+  document.getElementById('res-cost').innerText = Number(med.cost).toLocaleString();
+  document.getElementById('res-sale').innerText = Number(med.sale).toLocaleString() + " د.ع";
+  
+  document.getElementById('qty-count').value = 1;
+  recalcTotal();
+
+  document.getElementById('sale-panel').scrollIntoView({ behavior: 'smooth' });
+}
+
+function closeSalePanel(){
+  document.getElementById('sale-panel').style.display = 'none';
+  currentMedicine = null;
+  document.querySelectorAll('#search-table-body tr').forEach(r => r.classList.remove('selected'));
 }
 
 function changeQty(delta){
@@ -640,7 +578,7 @@ function recalcTotal(){
 }
 
 function openSaveConfirm(){
-  if(!currentMedicine){ alert("لا توجد بيانات علاج حالياً."); return; }
+  if(!currentMedicine) return;
   const qty = parseInt(document.getElementById('qty-count').value, 10) || 1;
   const total = qty * currentMedicine.sale;
 
@@ -657,7 +595,7 @@ function closeConfirmModal(){
 }
 
 function confirmSaveTotal(){
-  if(!currentMedicine){ closeConfirmModal(); return; }
+  if(!currentMedicine) return;
   const qty = parseInt(document.getElementById('qty-count').value, 10) || 1;
   const total = qty * currentMedicine.sale;
 
@@ -674,71 +612,12 @@ function confirmSaveTotal(){
   writeSales(log);
 
   closeConfirmModal();
-  showToast(`تم حفظ العملية: ${currentMedicine.name} × ${qty} = ${total.toLocaleString()} د.ع`);
-  if(navigator.vibrate) navigator.vibrate([80, 50, 80]);
-  playBeepSound();
+  closeSalePanel();
+  renderSearchList();
+  alert(`✅ تم حفظ العملية بنجاح: ${currentMedicine.name} × ${qty} = ${total.toLocaleString()} د.ع`);
 }
 
-function showToast(message){
-  const t = document.getElementById('successToast');
-  document.getElementById('toast-text').textContent = message;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3200);
-}
-
-/* =========================================================
-   💾 حفظ العلاج — مع منع تكرار الباركود
-   ========================================================= */
-function saveMedicine(){
-  const barcode = document.getElementById('add-barcode').value.trim();
-  const name    = document.getElementById('medicine-name').value.trim();
-  const cost    = document.getElementById('cost-price').value;
-  const sale    = document.getElementById('sale-price').value;
-
-  if(!barcode) return alert("يرجى مسح الباركود أولاً!");
-  if(!name || !cost || !sale) return alert("يرجى ملء جميع الحقول!");
-
-  const db = readDB();
-
-  // 🚫 منع تكرار الباركود
-  if(db[barcode]){
-    const existing = db[barcode];
-    const msg =
-      "⚠️ هذا الباركود مسجل مسبقاً في قاعدة البيانات!\n\n" +
-      "📊 البيانات الحالية:\n" +
-      "• الاسم: " + existing.name + "\n" +
-      "• سعر التكلفة: " + Number(existing.cost).toLocaleString() + " د.ع\n" +
-      "• سعر البيع: " + Number(existing.sale).toLocaleString() + " د.ع\n\n" +
-      "❓ هل تريد تحديث البيانات بالبيانات الجديدة؟\n" +
-      "• الاسم الجديد: " + name + "\n" +
-      "• سعر التكلفة: " + Number(cost).toLocaleString() + " د.ع\n" +
-      "• سعر البيع: " + Number(sale).toLocaleString() + " د.ع";
-
-    if(!confirm(msg)){
-      showToast("تم إلغاء الحفظ — الباركود موجود مسبقاً");
-      return;
-    }
-    // المستخدم وافق على التحديث
-    db[barcode] = { name, cost, sale };
-    writeDB(db);
-    showToast("تم تحديث بيانات العلاج: " + name);
-  } else {
-    // باركود جديد
-    db[barcode] = { name, cost, sale };
-    writeDB(db);
-    showToast("تم حفظ العلاج بنجاح: " + name);
-  }
-
-  document.getElementById('add-barcode').value   = '';
-  document.getElementById('medicine-name').value = '';
-  document.getElementById('cost-price').value    = '';
-  document.getElementById('sale-price').value    = '';
-  switchTab('add-tab');
-}
-
-/* =========================================================
-   التبويبات
-   ========================================================= */
+// ================= التبويبات والخزينة =================
 async function switchTab(tabId){
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -748,36 +627,29 @@ async function switchTab(tabId){
   else if(tabId === 'view-tab') document.getElementById('btn-view').classList.add('active');
   else document.getElementById('btn-treasury').classList.add('active');
 
-  if(html5QrcodeScanner){
-    try { await html5QrcodeScanner.stop(); } catch(e){}
-    html5QrcodeScanner = null;
-  }
+  if(html5QrcodeScanner){ try { await html5QrcodeScanner.stop(); } catch(e){} html5QrcodeScanner = null; }
   if(ocrStream) stopOcrCamera();
-
+  
   ['add','view'].forEach(prefix => {
     const sb = document.getElementById(prefix + '-start-btn');
     const pb = document.getElementById(prefix + '-stop-btn');
     if(sb) sb.style.display = 'block';
     if(pb) pb.style.display = 'none';
     const wrap = document.getElementById(prefix + '-scanner');
-    if(wrap){
-      wrap.innerHTML = "📷 الكاميرا متوقفة";
-      wrap.classList.remove('active');
-    }
+    if(wrap){ wrap.innerHTML = "📷 الكاميرا متوقفة"; wrap.classList.remove('active'); }
   });
 
-  document.getElementById('price-card').style.display = 'none';
-
+  if(tabId === 'add-tab') renderAddList();
+  if(tabId === 'view-tab') {
+    closeSalePanel();
+    document.getElementById('search-medicine').value = '';
+    renderSearchList();
+  }
   if(tabId === 'treasury-tab') renderTreasury();
 }
 
-/* =========================================================
-   💰 الخزينة
-   ========================================================= */
 function renderTreasury(){
   const log = readSales();
-  const container = document.getElementById('sales-container');
-
   let totalRevenue = 0, totalCost = 0, totalItems = 0;
   log.forEach(item => {
     totalRevenue += Number(item.total) || 0;
@@ -791,107 +663,64 @@ function renderTreasury(){
   document.getElementById('stat-count').textContent   = log.length;
   document.getElementById('stat-items').textContent   = totalItems;
 
+  const container = document.getElementById('sales-container');
   if(!log.length){
-    container.innerHTML = `
-      <div class="empty-treasury">
-        <span class="icon">📭</span>
-        لا توجد عمليات بيع مسجّلة بعد.<br>
-        <span style="font-size:11px;font-weight:500;display:block;margin-top:6px">
-          اذهب إلى تبويبة "السعر" وامسح دواءً ثم اضغط "حفظ السعر الكلي".
-        </span>
-      </div>`;
+    container.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:15px">لا توجد عمليات مسجلة</td></tr>`;
     return;
   }
 
   const reversed = [...log].reverse();
-  let html = `
-    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
-    <table class="sales-table">
-      <thead><tr>
-        <th class="col-idx">#</th>
-        <th class="col-name">الاسم</th>
-        <th class="col-num">العدد</th>
-        <th class="col-num">سعر الوحدة</th>
-        <th class="col-total">الإجمالي</th>
-        <th class="col-date">التاريخ</th>
-        <th class="col-del">×</th>
-      </tr></thead><tbody>`;
-
+  container.innerHTML = '';
   reversed.forEach((item, idx) => {
     const originalIndex = log.length - 1 - idx;
     let dateStr = '—';
     if(item.date){
-      try{
-        const d = new Date(item.date);
-        dateStr = d.toLocaleDateString('ar-IQ') + '<br>' + d.toLocaleTimeString('ar-IQ', {hour:'2-digit', minute:'2-digit'});
-      }catch(e){}
+      try{ const d = new Date(item.date); dateStr = d.toLocaleDateString('ar-IQ'); }catch(e){}
     }
-    html += `<tr>
-      <td class="col-idx">${originalIndex + 1}</td>
-      <td class="col-name">${escapeHtml(item.name || '—')}</td>
-      <td class="col-num">${item.qty || 0}</td>
-      <td class="col-num">${(Number(item.unitSale) || 0).toLocaleString()}</td>
-      <td class="col-total">${(Number(item.total) || 0).toLocaleString()}</td>
-      <td class="col-date">${dateStr}</td>
-      <td class="col-del"><button class="btn-del-sale" onclick="deleteSale(${originalIndex})" title="حذف">×</button></td>
-    </tr>`;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="text-align:right; font-weight:bold">${escapeHtml(item.name)}</td>
+      <td>${item.qty}</td>
+      <td style="color:#168000; font-weight:bold">${(Number(item.total)||0).toLocaleString()}</td>
+      <td style="font-size:10px">${dateStr}</td>
+      <td><button class="btn-danger btn-sm" onclick="deleteSale(${originalIndex})">×</button></td>
+    `;
+    container.appendChild(tr);
   });
+}
 
-  html += `</tbody></table></div>`;
-  container.innerHTML = html;
+function deleteSale(index){
+  const log = readSales();
+  if(!confirm("هل أنت متأكد من حذف هذه العملية؟")) return;
+  log.splice(index, 1);
+  writeSales(log);
+  renderTreasury();
+}
+
+function clearAllSales(){
+  if(!confirm("⚠️ هل أنت متأكد من مسح السجل بالكامل؟")) return;
+  writeSales([]);
+  renderTreasury();
 }
 
 function escapeHtml(value){
   return String(value).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
 }
 
-function deleteSale(index){
-  const log = readSales();
-  if(index < 0 || index >= log.length) return;
-  const item = log[index];
-  if(!confirm(`🗑️ حذف عملية: ${item.name} × ${item.qty} = ${(Number(item.total)||0).toLocaleString()} د.ع ؟`)) return;
-  log.splice(index, 1);
-  writeSales(log);
-  renderTreasury();
-  showToast("تم حذف العملية");
-}
-
-function clearAllSales(){
-  const log = readSales();
-  if(!log.length){ alert("السجل فارغ بالفعل."); return; }
-  if(!confirm(`⚠️ هل أنت متأكد من مسح كل السجل؟\nسيتم حذف ${log.length} عملية نهائياً.`)) return;
-  writeSales([]);
-  renderTreasury();
-  showToast("تم مسح كل السجل");
-}
-
-/* =========================================================
-   🧠 كاميرا OCR
-   ========================================================= */
+// ================= OCR =================
 async function startOcrCamera(){
   const wrapper = document.getElementById('ocr-scanner');
   const startBtn = document.getElementById('ocr-start-btn');
   const stopBtn  = document.getElementById('ocr-stop-btn');
   const capBtn   = document.getElementById('ocr-capture-btn');
-  const statusEl = document.getElementById('ocr-status');
 
   try{
-    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
-      throw new Error("المتصفح لا يدعم الكاميرا.");
-    }
-    ocrStream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: { ideal: "environment" }, width: { ideal: 1920 }, height: { ideal: 1080 } }
-    });
-
+    ocrStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "environment" } } });
     wrapper.innerHTML = "";
     wrapper.classList.add('active');
     ocrVideo = document.createElement('video');
-    ocrVideo.setAttribute('autoplay', '');
-    ocrVideo.setAttribute('playsinline', '');
-    ocrVideo.setAttribute('muted', '');
-    ocrVideo.style.width  = '100%';
-    ocrVideo.style.height = '100%';
-    ocrVideo.style.objectFit = 'cover';
+    ocrVideo.setAttribute('autoplay', ''); ocrVideo.setAttribute('playsinline', ''); ocrVideo.setAttribute('muted', '');
+    ocrVideo.style.width = '100%'; ocrVideo.style.height = '100%'; ocrVideo.style.objectFit = 'cover';
     ocrVideo.srcObject = ocrStream;
     wrapper.appendChild(ocrVideo);
     await ocrVideo.play();
@@ -899,149 +728,81 @@ async function startOcrCamera(){
     startBtn.style.display = 'none';
     stopBtn.style.display  = 'block';
     capBtn.style.display   = 'block';
-    statusEl.style.display = 'none';
-
-  } catch(err){
-    let msg = "تعذّر تشغيل كاميرا التعرف.\n\n";
-    if(err.name === "NotAllowedError") msg += "❌ تم رفض الصلاحية.\n\n📱 من أيقونة 🔒 فعّل الكاميرا ثم أعد التحميل.";
-    else if(err.name === "NotFoundError") msg += "❌ لا توجد كاميرا.";
-    else msg += "تفاصيل: " + (err.message || err.name);
-    alert(msg);
-    wrapper.innerHTML = "📷 تعذّر تشغيل كاميرا التعرف";
-  }
+  } catch(err){ alert("تعذّر تشغيل الكاميرا."); }
 }
 
 function stopOcrCamera(){
-  if(ocrStream){
-    ocrStream.getTracks().forEach(t => t.stop());
-    ocrStream = null;
-  }
-  if(ocrVideo){
-    ocrVideo.srcObject = null;
-    ocrVideo = null;
-  }
+  if(ocrStream){ ocrStream.getTracks().forEach(t => t.stop()); ocrStream = null; }
+  if(ocrVideo){ ocrVideo.srcObject = null; ocrVideo = null; }
   const wrap = document.getElementById('ocr-scanner');
-  wrap.innerHTML = "📷 كاميرا التعرف متوقفة";
-  wrap.classList.remove('active');
+  wrap.innerHTML = "📷 كاميرا التعرف متوقفة"; wrap.classList.remove('active');
   document.getElementById('ocr-start-btn').style.display = 'block';
   document.getElementById('ocr-stop-btn').style.display  = 'none';
   document.getElementById('ocr-capture-btn').style.display = 'none';
 }
 
 async function captureAndRecognize(){
-  const statusEl = document.getElementById('ocr-status');
-  const resultEl = document.getElementById('ocr-result');
-  const capBtn   = document.getElementById('ocr-capture-btn');
-
-  if(!ocrVideo){ alert("الكاميرا غير مفعلة."); return; }
-
-  capBtn.disabled = true;
-  statusEl.style.display = 'block';
-  statusEl.textContent = "⏳ جاري التقاط الصورة...";
-  resultEl.style.display = 'none';
+  const capBtn = document.getElementById('ocr-capture-btn');
+  if(!ocrVideo) return;
+  
+  capBtn.disabled = true; capBtn.textContent = "⏳ جاري التعرف...";
+  document.getElementById('ocr-result').style.display = 'none';
 
   try{
     const canvas = document.createElement('canvas');
-    const w = ocrVideo.videoWidth  || 1920;
-    const h = ocrVideo.videoHeight || 1080;
-    canvas.width  = w;
-    canvas.height = h;
+    const w = ocrVideo.videoWidth, h = ocrVideo.videoHeight;
+    canvas.width = w; canvas.height = h;
     const ctx = canvas.getContext('2d');
     ctx.drawImage(ocrVideo, 0, 0, w, h);
     const originalDataUrl = canvas.toDataURL('image/png');
 
-    const processed = preprocessForOcr(canvas, ctx, w, h);
+    const imgData = ctx.getImageData(0, 0, w, h);
+    for(let i = 0; i < imgData.data.length; i += 4){
+      const gray = 0.299*imgData.data[i] + 0.587*imgData.data[i+1] + 0.114*imgData.data[i+2];
+      imgData.data[i] = imgData.data[i+1] = imgData.data[i+2] = gray < 128 ? Math.max(0, gray * 0.5) : Math.min(255, gray * 1.4 + 30);
+    }
+    ctx.putImageData(imgData, 0, 0);
+    const processed = canvas.toDataURL('image/png');
 
-    statusEl.textContent = "🧠 جاري التعرف على النص...";
-
-    // ✅ استخراج كل الكلمات مع إحداثياتها باستخدام words
-    const result = await Tesseract.recognize(
-      processed, 'eng',
-      {
-        logger: m => {
-          if(m.status === 'recognizing text'){
-            statusEl.textContent = `🧠 جاري التعرف... ${Math.round(m.progress*100)}%`;
-          }
-        }
-      }
-    );
-
-    // جمع كل الكلمات مع مواقعها (bbox)
+    const result = await Tesseract.recognize(processed, 'eng');
     const words = [];
-    if(result.data.words && result.data.words.length){
+    if(result.data.words){
       result.data.words.forEach(w => {
-        const text = (w.text || '').trim();
-        if(!text) return;
-        if(!/[A-Za-z0-9\u0600-\u06FF]/.test(text)) return;
-        if(w.confidence !== undefined && w.confidence < 30) return; // تجاهل الكلمات غير الواضحة
-        if(w.bbox){
-          words.push({
-            text: text,
-            bbox: {
-              x0: w.bbox.x0, y0: w.bbox.y0,
-              x1: w.bbox.x1, y1: w.bbox.y1
-            }
-          });
+        if(w.text.trim() && /[A-Za-z0-9]/.test(w.text) && w.confidence > 30){
+          words.push({ text: w.text.trim(), bbox: w.bbox });
         }
       });
     }
 
-    statusEl.style.display = 'none';
-
     if(!words.length){
-      resultEl.style.display = 'block';
-      resultEl.className = 'ocr-result err';
-      resultEl.textContent = "❌ لم يتم التعرف على نص واضح. جرّب تقريب الكاميرا أكثر أو تحسين الإضاءة.";
-      stopOcrCamera();
+      document.getElementById('ocr-result').style.display = 'block';
+      document.getElementById('ocr-result').textContent = "❌ لم يتم التعرف على نص. جرب التحسين.";
       return;
     }
 
-    // فتح محرر الكلمات
     stopOcrCamera();
     openWordEditor(originalDataUrl, words, w, h);
 
   } catch(err){
-    statusEl.style.display = 'none';
-    resultEl.style.display = 'block';
-    resultEl.className = 'ocr-result err';
-    resultEl.textContent = "❌ حدث خطأ: " + (err.message || err);
+    document.getElementById('ocr-result').style.display = 'block';
+    document.getElementById('ocr-result').textContent = "❌ حدث خطأ: " + err.message;
   } finally {
-    capBtn.disabled = false;
+    capBtn.disabled = false; capBtn.textContent = "📸 التقاط والتعرف";
   }
 }
 
-function preprocessForOcr(canvas, ctx, w, h){
-  const imgData = ctx.getImageData(0, 0, w, h);
-  const d = imgData.data;
-  for(let i = 0; i < d.length; i += 4){
-    const gray = 0.299*d[i] + 0.587*d[i+1] + 0.114*d[i+2];
-    const contrast = gray < 128 ? Math.max(0, gray * 0.5) : Math.min(255, gray * 1.4 + 30);
-    d[i]   = contrast;
-    d[i+1] = contrast;
-    d[i+2] = contrast;
-  }
-  ctx.putImageData(imgData, 0, 0);
-  return canvas.toDataURL('image/png');
-}
-
-/* =========================================================
-   🎯 محرر الكلمات التفاعلي (Google Translate style)
-   ========================================================= */
+// ================= محرر الكلمات =================
 function openWordEditor(imageDataUrl, words, imgW, imgH){
   wordEditorState.words = words;
   wordEditorState.selected.clear();
 
   const img = document.getElementById('wordEditorImage');
   const container = document.getElementById('wordEditorImageContainer');
-
-  // إزالة المربعات القديمة
   container.querySelectorAll('.word-box').forEach(el => el.remove());
 
   img.onload = () => {
-    const displayedW = img.clientWidth;
-    const displayedH = img.clientHeight;
-    const scaleX = displayedW / imgW;
-    const scaleY = displayedH / imgH;
+    const scaleX = img.clientWidth / imgW;
+    const scaleY = img.clientHeight / imgH;
 
     words.forEach((word, idx) => {
       const box = document.createElement('div');
@@ -1051,90 +812,50 @@ function openWordEditor(imageDataUrl, words, imgW, imgH){
       box.style.top    = (word.bbox.y0 * scaleY) + 'px';
       box.style.width  = ((word.bbox.x1 - word.bbox.x0) * scaleX) + 'px';
       box.style.height = ((word.bbox.y1 - word.bbox.y0) * scaleY) + 'px';
-
-      const label = document.createElement('span');
-      label.className = 'word-label';
-      label.textContent = word.text;
-      box.appendChild(label);
-
-      box.addEventListener('click', () => toggleWordSelection(idx));
+      box.onclick = () => toggleWordSelection(idx);
       container.appendChild(box);
     });
-
     updateSelectedInfo();
   };
   img.src = imageDataUrl;
-
   document.getElementById('wordEditorOverlay').classList.add('show');
 }
 
 function toggleWordSelection(idx){
-  if(wordEditorState.selected.has(idx)){
-    wordEditorState.selected.delete(idx);
-  } else {
-    wordEditorState.selected.add(idx);
-  }
-
-  const container = document.getElementById('wordEditorImageContainer');
-  const box = container.querySelector(`.word-box[data-index="${idx}"]`);
-  if(box){
-    if(wordEditorState.selected.has(idx)) box.classList.add('selected');
-    else box.classList.remove('selected');
-  }
+  if(wordEditorState.selected.has(idx)) wordEditorState.selected.delete(idx);
+  else wordEditorState.selected.add(idx);
+  
+  const box = document.querySelector(`.word-box[data-index="${idx}"]`);
+  if(box) box.classList.toggle('selected');
   updateSelectedInfo();
 }
 
 function updateSelectedInfo(){
   const info = document.getElementById('wordEditorSelectedInfo');
-  const count = wordEditorState.selected.size;
-
-  if(count === 0){
-    info.classList.add('empty');
+  if(wordEditorState.selected.size === 0){
     info.textContent = "لم تختر أي كلمة بعد";
     return;
   }
-
-  // جمع الكلمات المحددة بالترتيب الأصلي (من اليسار لليمين في الصورة)
-  const indices = Array.from(wordEditorState.selected).sort((a,b) => a - b);
-  const selectedText = indices.map(i => wordEditorState.words[i].text).join(' ');
-
-  info.classList.remove('empty');
-  info.textContent = `✅ تم اختيار (${count}) كلمة: "${selectedText}"`;
+  const text = Array.from(wordEditorState.selected).sort((a,b)=>a-b).map(i => wordEditorState.words[i].text).join(' ');
+  info.textContent = `✅ المحدد: "${text}"`;
 }
 
 function selectAllWords(){
-  wordEditorState.selected.clear();
-  wordEditorState.words.forEach((_, idx) => wordEditorState.selected.add(idx));
-  const container = document.getElementById('wordEditorImageContainer');
-  container.querySelectorAll('.word-box').forEach(box => box.classList.add('selected'));
+  wordEditorState.words.forEach((_, i) => wordEditorState.selected.add(i));
+  document.querySelectorAll('.word-box').forEach(b => b.classList.add('selected'));
   updateSelectedInfo();
 }
 
 function deselectAllWords(){
   wordEditorState.selected.clear();
-  const container = document.getElementById('wordEditorImageContainer');
-  container.querySelectorAll('.word-box').forEach(box => box.classList.remove('selected'));
+  document.querySelectorAll('.word-box').forEach(b => b.classList.remove('selected'));
   updateSelectedInfo();
 }
 
 function confirmWordSelection(){
-  if(wordEditorState.selected.size === 0){
-    alert("⚠️ لم تختر أي كلمة. اضغط على مربع واحد على الأقل ثم أكّد.");
-    return;
-  }
-
-  const indices = Array.from(wordEditorState.selected).sort((a,b) => a - b);
-  const selectedText = indices.map(i => wordEditorState.words[i].text).join(' ');
-
-  // كتابة الاسم في حقل اسم العلاج
-  const nameInput = document.getElementById('medicine-name');
-  nameInput.value = selectedText;
-  nameInput.focus();
-
-  showToast(`✅ تم اعتماد الاسم: "${selectedText}"`);
-  if(navigator.vibrate) navigator.vibrate([80, 50, 80]);
-  playBeepSound();
-
+  if(wordEditorState.selected.size === 0) return;
+  const text = Array.from(wordEditorState.selected).sort((a,b)=>a-b).map(i => wordEditorState.words[i].text).join(' ');
+  document.getElementById('medicine-name').value = text;
   closeWordEditor();
 }
 
@@ -1144,18 +865,10 @@ function closeWordEditor(){
   wordEditorState.selected.clear();
 }
 
-function playBeepSound(){
-  try{
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.connect(gain); gain.connect(ctx.destination);
-    osc.type = 'sine'; osc.frequency.value = 1200;
-    gain.gain.setValueAtTime(1, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
-    osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.1);
-  } catch(e){}
-}
+document.addEventListener("DOMContentLoaded", () => {
+  renderAddList();
+  renderSearchList();
+});
 </script>
 </body>
 </html>
