@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head>
+<head><link rel="manifest" href="manifest.json">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>نظام إدارة الصيدلية</title>
@@ -869,6 +869,16 @@ document.addEventListener("DOMContentLoaded", () => {
   renderAddList();
   renderSearchList();
 });
+</script>
+  <script>
+  // تسجيل ملف الأوفلاين
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js')
+        .then(registration => console.log('Offline mode active!', registration))
+        .catch(err => console.log('Offline mode failed', err));
+    });
+  }
 </script>
 </body>
 </html>
